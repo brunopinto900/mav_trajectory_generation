@@ -1,0 +1,4 @@
+<launch>
+    <arg name="output" default="log"/>
+	<node name="gate_minimum_snap" pkg="mav_trajectory_generation_example" type="gate_minimum_snap" output="$(arg output)"></node>
+</launch>
