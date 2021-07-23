@@ -1,7 +1,22 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(mav_trajectory_generation_example)
 
-find_package(catkin_simple REQUIRED)
+find_package(catkin_simple REQUIRED
+nav_msgs
+roscpp
+rospy
+std_msgs
+geometry_msgs
+visualization_msgs
+trajectory_msgs
+message_generation
+core
+)
+
+catkin_package(
+  CATKIN_DEPENDS roscpp std_msgs core
+)
+
 catkin_simple(ALL_DEPS_REQUIRED)
 
 set(CMAKE_MACOSX_RPATH 0)
@@ -10,15 +25,12 @@ add_definitions(-std=c++11)
 ############
 # BINARIES #
 ############
-cs_add_executable(trajectory_generation_example
-        src/example_planner.cc
-        src/example_planner_node.cc
+
+cs_add_executable(gate_minimum_snap
+        src/minimum_snap_node.cpp
 )
 
-cs_add_executable(trajectory_generation_6dof_example
-        src/example_planner_6dof.cc
-        src/example_planner_6dof_node.cc
-)
+add_dependencies(gate_minimum_snap ${catkin_EXPORTED_TARGETS})
 
 ##########
 # EXPORT #

@@ -37,15 +37,12 @@ double normalize_angle(double angle) {
 
 double getYaw(double qx, double qy, double qz, double qw )
 {
-    double yaw = std::atan2(2*(qw*qz+qx*qy),1-2*(qy*qy+qz*qz));
-    return yaw;
-
+    return normalize_angle( std::atan2( 2*(qw*qz+qx*qy),1-2*(qy*qy+qz*qz) ) );
 }
 
 void gate_poses_callback(geometry_msgs::PoseArray gate_poses) 
 {
     double qx,qy,qz,qw;
-    //std::cout << "Gates callback\n";
     Eigen::Vector4d initial_pose; initial_pose(0) = 6;
     initial_pose(1) = 81; initial_pose(2) = -43; initial_pose(3) = -0.349;
 
@@ -82,7 +79,7 @@ void gate_poses_callback(geometry_msgs::PoseArray gate_poses)
     //std::cout << "Vertices created\n";
     std::vector<double> segment_times;
     const double v_max = 4.0;
-    const double a_max = 8.0;
+    const double a_max = 16.0;
     segment_times = estimateSegmentTimes(vertices, v_max, a_max);
 
     const int N = 10;
@@ -132,7 +129,7 @@ void gate_poses_callback(geometry_msgs::PoseArray gate_poses)
 
         // Positions
         state.position.x = sample(0); state.position.y = sample(1); state.position.z = sample(2);
-        //state.yaw = atan2(sample(3),1);
+        state.yaw = atan2(sample(3),1);
 
         
       
